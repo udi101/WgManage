@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-sm-4">
+    <input type="text" class="form-control input-sm" placeholder="סינון פרמטרים" />
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="pre-scrollable">
+      <table class="table table-condensed table-hover table-bordered">
+        <thead>
+          <tr>
+            <th class="col-sm-3" (click)="setSortCriteria('parameterName')">שם הפרמטר
+              <i *ngIf="checkSortType('parameterName')" class="fa"
+                [ngClass]="{'fa-chevron-down': !isInverse,'fa-chevron-up': isInverse }"></i>
+            </th>
+            <th  class="col-sm-3" (click)="setSortCriteria('hebName')">שם בעברית
+               <i *ngIf="checkSortType('hebName')" class="fa"
+                  [ngClass]="{'fa-chevron-down': !isInverse,'fa-chevron-up': isInverse }"></i>
+            </th>
+              <th class="col-sm-3" (click)="setSortCriteria('parameterValue')">ערך הפרמטר
+                 <i *ngIf="checkSortType('parameterValue')" class="fa"
+                    [ngClass]="{'fa-chevron-down': !isInverse,'fa-chevron-up': isInverse }"></i>
+              </th>
+              <th class="col-sm-1">עריכה / ביטול</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let strParameter of strParamtersList | sortStrParameters : sortCriteria : isInverse?1:-1">
+            <td>{{strParameter.parameterName}}</td>
+            <td>{{strParameter.hebName}}</td>
+            <td *ngIf="!isCurrntParameter(strParameter)">{{strParameter.parameterValue}}</td>
+            <td *ngIf="isCurrntParameter(strParameter)">
+              <div class="row">
+                <div class="col-xs-9"><input type="text" class="form-control input-sm" 
+                  [(ngModel)]="strParameter.parameterValue" /></div>
+                <div style="text-align: right">
+                  <i class="glyphicon glyphicon-ok-circle" (click)="updateStrParameter(strParameter)"></i></div>
+              </div>
+            </td> 
+            <td *ngIf="!isCurrntParameter(strParameter)" class="text-center">
+              <i (click)="setCurrentStrParameter(strParameter)" class="glyphicon glyphicon-edit" style="color:#2040a0"></i></td>
+            <td *ngIf="isCurrntParameter(strParameter)" class="text-center">
+              <i class="glyphicon glyphicon-remove-circle" (click)="unselectStrParameter()"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <preloader *ngIf="isLoadingStrParameters" [loaderMessage]="'טוען פרמטרים...'"></preloader>
+  <preloader class="loader" *ngIf="isUpdatingStrParamter" [loaderMessage]="'מעדכן פרמטר..'"></preloader>
+</div>
+<!--
+כספת 530
+חובה 1227
+מקיף: 3771
+
+3771 :חובה
+1227 :מקיף
+
+גבול אחריות עד נליון
+השתתפות עצמית 1337
+רכב חלופי בכל המצים
+שמשות עד הבית כולל גומיות
+גרירה והחלפת פנצק שגריר
+פנסים 
+1377 אם נכנתי במישהו מאחורה
+אם פגעתי ונפגעתי 2900 לתיקון שני הרכבים
+
+-->

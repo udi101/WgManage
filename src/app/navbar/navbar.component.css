@@ -1,0 +1,16 @@
+.pointer {
+  cursor: pointer;
+}
+
+.page-header {
+  margin-top: 0
+}
+
+.loader {
+  min-height: 70px;
+}
+
+.loader>preloader {
+  position: absolute;
+  bottom: 0px
+}

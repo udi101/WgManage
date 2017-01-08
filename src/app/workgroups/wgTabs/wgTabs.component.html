@@ -1,0 +1,13 @@
+    <div class="btn-group btn-group-sm">
+      <label type="button" class="btn btn-default"
+              [routerLink]="['/CustomAttributes',getCurrentAcg(),getCurrentWg()]"
+              [ngClass]="{'btn-primary': isSelected('ca')}">תכונות מותאמות אישית</label>
+
+      <label type="button" class="btn btn-default"
+              [ngClass]="{'btn-primary': isSelected('users')}"
+              [routerLink]="['/UsersWg',getCurrentAcg(),getCurrentWg()]">ניהול  משתמשים</label>
+
+      <label type="button" class="btn btn-default" 
+              [ngClass]="{'btn-primary': isSelected('sp')}"
+              [routerLink]="['/ProccessesWg',getCurrentAcg(),getCurrentWg()]">משתנים של תהליכים</label>
+    </div>

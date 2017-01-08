@@ -1,0 +1,18 @@
+<!--תיבת חיפוש ושינוי תצוגה-->
+<div style="margin-bottom:5px">
+  <input style="width:70%;border-style: groove" type="text" class="input-sm" placeholder="חיפוש קבוצה" [(ngModel)]="workgroupSearchString">
+  <button class="btn btn-default btn-sm" (click)="toggleAcgDisplayRun()">
+     <i [ngClass]="{'glyphicon':true,'glyphicon-chevron-right':!isWideDisplay,'glyphicon-chevron-left':isWideDisplay}"
+     style="color:#0060e0"></i></button>
+</div>
+<!--===================================-->
+
+<!-- === רשימת הקבוצות === -->
+<div class="pre-scrollable">
+  <table class="table table-condensed table-bordered table-hover">
+    <tr style="cursor:pointer" *ngFor="let workgroup of workgroupList | filterWorkroup : workgroupSearchString">
+      <td (click)="refreshAttributes(workgroup)" [ngClass]="{selectedWg: checkSelectedWg(workgroup)}" style="overflow: hidden">{{workgroup}}</td>
+    </tr>
+  </table>
+</div>
+<preloader *ngIf="isLoading"></preloader>

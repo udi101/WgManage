@@ -1,0 +1,13 @@
+.currentProcess
+{
+   background-color: #2050c0;
+   color:#fff;
+   font-weight: bold;
+}
+.hand{
+    cursor: pointer;
+}
+th
+{
+    background: linear-gradient(#fcfcfc,#d0d0d0);
+}

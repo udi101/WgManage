@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-sm-12">
+  <breadcrumbs [navGroup]="'הגדרות'"
+  [operation]="'משתנים של תהליכים'"
+  [element]="currentProcess.processName"></breadcrumbs>
+</div></div>
+<div class="row">
+  <div class="col-sm-4">
+    <process-list (selectCurrentProcess)="setCurrentProcess($event)"></process-list>
+  </div>
+  <div class="col-sm-8"><sp-list [currentProcess]="currentProcess"></sp-list> </div>
+<span></span>
+</div>

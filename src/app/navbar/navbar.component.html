@@ -1,0 +1,126 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle avigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a class="navbar-brand" [routerLink]="['/Home']">Workgroups</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" style="cursor:pointer">
+                            ניהול קבוצות<i class="caret"></i>
+                        </a>
+          <ul class="dropdown-menu">
+            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+              <a [routerLink]="['/CustomAttributes']"><i class="fa fa-server"></i> תכונות מותאמות אישית</a></li>
+            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+              <a [routerLink]="['/UsersWg']"><i class="fa fa-user"></i> ניהול משתמשים  בקבוצה</a></li>
+            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+              <a [routerLink]="['/Create_Workgroup']"><i class="fa fa-group"></i> הקמת קבוצה חדשה</a></li>
+            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+              <a [routerLink]="['/ProccessesWg']"><i class="fa fa-link"></i> תהליכים קשורים</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            הגדרות<i class="caret"></i>
+                        </a>
+          <ul class="dropdown-menu">
+            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+              <a [routerLink]="['/users']"><i class="fa fa-user-circle"></i> ניהול משתמשים</a></li>
+            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+              <a [routerLink]="['/structuredParameters']"><i class="fa fa-gear"></i> משתנים של תהליכים</a></li>
+            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+              <a [routerLink]="['/processDnis']"><i class="fa fa-phone"></i> מספרי גישה</a></li>
+            <li [ngClass]="{'disabled': !_workgroupService.userId}"><a>
+              <i class="fa fa-sitemap"></i> היררכיית קבוצות</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul *ngIf="!_workgroupService.userId" class="nav navbar-nav navbar-left">
+        <li class="pointer" data-toggle="modal" data-target="#loginModal">
+          <a>
+            <i class="glyphicon glyphicon-user"></i>
+            <span>{{_workgroupService.userId}}</span>
+          </a>
+        </li>
+      </ul>
+      <ul *ngIf="_workgroupService.userId" class="nav navbar-nav navbar-left">
+        <li class="pointer" data-toggle="modal" data-target="#logoutModal">
+          <a>
+            <i class="glyphicon glyphicon-user"></i>
+            <span>{{_workgroupService.userId}}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!--חלונית לניתוק המשתמש-->
+<div id="logoutModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="page-header">
+          <i class="glyphicon glyphicon-log-out"></i> יציאה מהמערכת</div>
+      האם ברצונך להתנתק מן המערכת?
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn btn-sm" data-dismiss="modal"><i class="fa fa-undo"></i>ביטול</button>
+        <button class="btn btn-sm btn-primary" (click)="logOut()"><i class="glyphicon glyphicon-log-out"></i> יציאה מהמערכת</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--===========================================
+        חלונית התחברות-->
+<div id="loginModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="page-header">
+          <span class="pull-left close" style="font-size: 23px" data-dismiss="modal">&times;</span>
+          <h5>
+            <i class="fa fa-user-circle-o" style="font-size: 23px"></i> התחברות למערכת</h5>
+        </div>
+        <div class="row">
+          <div class="col-sm-8">
+            <div class="row form-group">
+              <label for="" class="col-sm-3 control-label">שם משתמש:</label>
+              <div class="col-sm-6">
+                <input #userId type="text" class="form-control input-sm" dir="ltr">
+              </div>
+            </div>
+            <div class="row form-group">
+              <label for="" class="col-sm-3 control-label">סיסמא:</label>
+              <div class="col-sm-7">
+                <div class="input-group">
+                  <input [type]="passwordType" class="input-sm form-control" dir="ltr">
+                  <div class="input-group-btn input-sm">
+                    <i class="glyphicon glyphicon-eye-open" (mousedown)="setToTextType()" (mouseup)="setToPasswordType()" (mouseleave)="setToPasswordType()"
+                      style="font-size: 16px; cursor: pointer;color: #2040c0"></i> </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 loader">
+            <preloader [loaderMessage]="'מאמת משתמש'"></preloader></div>         
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm" data-dismiss="modal"><i class="fa fa-undo"></i> יציאה </button>
+        <button class="btn btn-primary btn-sm" (click)="registerUser(userId.value)">
+          <i class="glyphicon glyphicon-log-in"></i>
+          התחברות</button>
+      </div>
+    </div>
+  </div>
+</div>

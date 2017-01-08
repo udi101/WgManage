@@ -1,0 +1,40 @@
+
+
+
+  <!--הצגת אנימציה בעת ביצוע  שינוי ערך של תכונה-->
+  <div style="position:absolute;z-index:1;left:50%;top:50%" *ngIf="inProccess">
+    <preloader [loaderMessage]="'מעדכן נתונים'"></preloader></div>
+
+
+<div class="row nopadding">
+  <div class="col-sm-3 nopadding">
+    <!--תיבת טקסט לסינון -->
+    <input type="text" class="input-sm" [(ngModel)]="filterString" style="border-style:groove;margin-bottom:5px;direction: ltr">
+  </div>
+  <!-- === לחצני ניווט כולל שמירת הקבוצה שנבחרה === -->
+  <div class="col-sm-9 nopadding" style="text-align:left">
+    <wgTabs [activeAction]="'sp'"></wgTabs>
+  </div>
+</div>
+
+
+
+  <div class="row">
+    <div class="col-sm-12">
+    <div class="pre-scrollable">
+      <table class="table table-condensed table-hover table-bordered">
+        <thead style="background:linear-gradient(#fcfcfc,#d0d0d0)">
+          <tr>
+            <th>מזהה התהליך</th>
+            <th>שם התהליך</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sp of structureParameters">
+            <td>{{sp.processId}}</td>
+            <td>{{sp.processName}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div></div>

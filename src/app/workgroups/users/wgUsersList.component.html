@@ -1,0 +1,141 @@
+<div class="row">
+  <div class="col-sm-3  nowrap">
+    <input type="text" class="input-sm" style="border-style:groove;margin-bottom: 5px;direction: rtl" [(ngModel)]="filterCriteria"
+      placeholder="חפש לפי שם העובד"></div>
+
+  <!-- === לחצני ניווט כולל שמירת הקבוצה שנבחרה === -->
+  <div class="col-sm-9 nopadding" style="text-align:left">
+    <wgTabs [activeAction]="'users'"></wgTabs>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <!--הצגת אנימציה בעת ביצוע  שינוי ערך של תכונה-->
+    <div style="position:absolute;z-index:1;left:50%;top:40%" *ngIf="inProccess">
+      <preloader [loaderMessage]="'מעדכן נתונים'"></preloader>
+    </div>
+    <div class="pre-scrollable">
+      <table class="table table-condensed table-hover table-bordered">
+        <thead style="background:linear-gradient(#fcfcfc,#d0d0d0)">
+          <tr>
+            <th class="hand" (click)="changeUsersSort('userId')">
+              <div style="width:100px">
+                שם משתמש
+                <i *ngIf="orderCriteria=='userId'" style="color:#0050c0;" class="glyphicon" [ngClass]="{'glyphicon-chevron-down': !isInverse,'glyphicon-chevron-up':isInverse}"></i></div>
+            </th>
+            <th class="hand" (click)="changeUsersSort('displayName')">
+              <div style="width:100px">
+                שם התצוגה
+                <i *ngIf="orderCriteria=='displayName'" style="color:#0050c0;" class="glyphicon" [ngClass]="{'glyphicon-chevron-down': !isInverse,'glyphicon-chevron-up':isInverse}"></i></div>
+            </th>
+            <th class="hand" style="width:15%;" (click)="changeUsersSort('isActive')">
+              האם פעיל
+              <i *ngIf="orderCriteria=='isActive'" style="color:#0050c0;" class="glyphicon" [ngClass]="{'glyphicon-chevron-down': !isInverse,'glyphicon-chevron-up':isInverse}"></i></th>
+            <th style="width:15%">הסרה מהקבוצה</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of usersList | filterUsers : filterCriteria | sortUsers : orderCriteria: isInverse ">
+            <td><a [routerLink]="['/users',user.userId]">{{user.userId}}</a></td>
+            <td>{{user.displayName}}</td>
+            <td class="text-center">
+              <div [ngSwitch]="user.isActive">
+                <div *ngSwitchCase="true">
+                  <i class="glyphicon glyphicon-ok" (click)="changeUserStatus(user)" style="font-size:13px;color:#00c000;cursor:pointer"></i></div>
+                <div *ngSwitchCase="false">
+                  <i class="glyphicon glyphicon-remove" (click)="changeUserStatus(user)" style="font-size:13px;color:#f00000;cursor:pointer"></i></div>
+              </div>
+            </td>
+            <td class="text-center"><i class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#confirmDeleateModal" (click)="setCurrentUser(user)"
+                style="font-size:13px;cursor:pointer"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!--לחצן של הוספת משתמש-->
+<div class="row" *ngIf="currnetWorkgroup">
+  <div class="col-sm-12">
+    <hr style="margin:6px 0px 6px 0px;border-color:#3060c0" />
+    <button class="btn btn-sm btn-info" data-toggle="modal"
+        data-target="#addUserModal" (click)="loadCandidates()">הוספת משתמש 
+        <span class="glyphicon glyphicon-user"></span></button>
+  </div>
+</div>
+
+
+<!--מודל נפרד להוספת משתמשים-->
+<div id="addUserModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header" style="height:60px">
+        <div>
+          <button type="button" class="close" data-dismiss="modal">&times;</button></div>
+        <span class="modal-title"><h4 class="text-info" style="color:#0040b0">
+          <i class="fa fa-male"></i> הוספת משתמשים לקבוצת - 
+          <span style="color:red">{{currnetWorkgroup}}</span></h4>
+        </span>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-3" style="margin:10px 20px 0 0">
+          <input type="text" class="form-control input-sm" placeholder="חפש לפי שם העובד"></div>
+      </div>
+      <div class="modal-body pre-scrollable">
+        <table class="table table-condensed table-hover table-bordered">
+          <thead style="background:linear-gradient(#fcfcfc,#d0d0d0)">
+            <tr>
+              <th>שם משתמש</th>
+              <th>שם תצוגה</th>
+              <th>הוספה</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let candidate of candidatesList | sortUsers : orderCriteria: isInverse">
+              <td>{{candidate.userId}}</td>
+              <td>{{candidate.displayName}}</td>
+              <td class="text-center" style="cursor:pointer">
+                <!--הוספת משתמשים לקבוצה-->
+                <span class="text-info glyphicon glyphicon-plus"
+                (click)="insertUserToWorkgroup(candidate)"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">יציאה</button>
+      </div>
+    </div>
+    <!--אנימציה לתצוגה בשעת טעינת נתונים - עבור המודל-->
+    <div style="position:absolute;z-index:1;left:50%;top:40%" *ngIf="inProccess">
+      <preloader [loaderMessage]="'מעדכן נתונים'"></preloader>
+    </div>
+  </div>
+</div>
+
+
+
+<!--מודל לאישור או ביטול של מחיקת המשתמש-->
+<div style="position:absolute; top:50px;right:7%">
+  <div class="modal modal-dialog fade" id="confirmDeleateModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">הסרת משתמש מקבוצה
+          <i class="close" style="cursor: pointer" data-dismiss="modal">&times;</i>
+      </div>
+        <div class="modal-body" style="font-size:15px">
+          <p>האם אתה בטוח שברצונך להסיר את <span style="color:red;font-weight:bold" >{{currentUser.displayName}}</span> מהקבוצה?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">ביטול</button>
+          <button type="button" class="btn btn-sm btn-primary" (click)="removeUserFromGroup(currentUser)" data-dismiss="modal" >אישור</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

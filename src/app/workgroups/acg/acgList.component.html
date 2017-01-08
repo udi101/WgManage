@@ -1,0 +1,6 @@
+<table class="table table-condensed table-hover table-bordered">
+	<tr style="cursor:pointer"  *ngFor="let acg of acgList | orderBy">
+		<td (click)="changeAcg(acg)" [ngClass]="{selectedAcg: checkSelectedAcg(acg)}">{{acg}}</td>
+	</tr>
+</table>
+<preloader *ngIf="isLoading"></preloader>

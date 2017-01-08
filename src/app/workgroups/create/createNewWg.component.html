@@ -1,0 +1,86 @@
+<div class="page-header">
+  <breadcrumbs [navGroup]="'ניהול קבוצות'" [operation]="'יצירת קבוצה חדשה'"></breadcrumbs>
+  <h4>יצירת קבוצה חדשה</h4>
+</div>
+
+
+<div class="row">
+  <div class="col-sm-2">
+    <form #form="ngForm" novalidate>
+      <div class="form-group" [ngClass]="{'has-error': firstName.dirty&&firstName.touched&&firstName.invalid}">
+        <label class="control-label">שם הקבוצה</label>
+        <div class="input-group">
+          <input type="text" #firstName="ngModel" class="form-control input-sm"
+            required minlength="3" name="firstName"
+          [(ngModel)]="user.firstName">
+
+            <!--[ngModel]="user.firstName"
+             (ngModelChange)="changeToUpper($event)"-->
+          <div class="input-group-btn">
+            <button class="btn btn-primary btn-sm" tabindex="-1">Ok</button>
+          </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="firstName.invalid&&firstName.dirty&&firstName.touched">
+          <div style="position:absolute;top:20%">
+            יש להזין טקסט 
+          </div></div>
+      </div>
+      <!--============================-->
+      <div class="form-group">
+        <label>שם משפחה</label>
+        <div class="input-group">
+          <input type="text" class="form-control input-sm" name="lastName" required
+          [(ngModel)]="user.lastName">
+          <span class="input-group-addon input-sm"><i class="fa fa-bed"></i></span>
+        </div>
+      </div>
+      <!--============================-->
+      <div class="form-group">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="Operation" [(ngModel)]="user.isOperated" required>הפעלה מיידית
+        </label>
+      </div></div>
+
+
+      <!--=============================-->
+      <div class="form-group">
+      <label for="" class="control-label">שם המוקד</label>
+      <div class="radio">
+        <label for="">
+          <input type="radio" name="moked" value="dikla" [(ngModel)]="user.moked">מוקד דקלה
+        </label>
+      </div>
+      <div class="radio">
+        <label for="">
+          <input type="radio" name="moked" value="sherut" [(ngModel)]="user.moked">מוקד שרות
+        </label>
+      </div></div>
+
+      <div class="form-group">
+        <label for="">תפקיד</label>
+        <select name="role" class="form-control input-sm"[(ngModel)]="user.role">
+          <option value="admin">מנהל משמרת</option>
+          <option value="supervisor">ראש צוות</option>
+          <option value="caller">נציג שרות</option>
+        </select>
+      </div>
+
+      <!--============================-->
+
+      <div class="row">
+      <div class="col-sm-6">
+      <button class="btn btn-sm btn-primary" type="submit" click="check()">
+        <i class="fa fa-registered" style="font-size:15px"></i> רשום משתמש</button>
+      </div></div>
+      
+    </form>
+  </div>
+  <div class="col-sm-5 col-sm-offset-2">
+    {{firstName.dirty}}<br />
+    <!--{{firstName.className}} <br />-->
+    {{user | json}}<br />
+    {{form.value | json}}
+
+  </div>
+</div>

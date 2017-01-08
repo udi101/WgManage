@@ -1,0 +1,19 @@
+.breadcrumb
+{
+    margin-top:0px;
+    margin-bottom: 6px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color:#fff;
+}
+.breadcrumb::before{
+    content: 'המיקום שלך הוא: \00a0 \00a0 ';
+}
+.breadcrumb li {
+    color:#0050c0;
+    font-weight: bold;
+}
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}

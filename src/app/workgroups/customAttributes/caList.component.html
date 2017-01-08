@@ -1,0 +1,74 @@
+<div class="row nopadding">
+  <div class="col-sm-3 nopadding">
+    <!--תיבת טקסט לסינון -->
+    <input type="text" class="input-sm" [(ngModel)]="filterString" style="border-style:groove;margin-bottom:5px;direction: ltr">
+  </div>
+
+  <!-- === לחצני ניווט כולל שמירת הקבוצה שנבחרה === -->
+  <div class="col-sm-9 nopadding" style="text-align:left">
+    <wgTabs [activeAction]="'ca'"></wgTabs>
+  </div>
+</div>
+
+<!--טבלה עם רשימת התכונות-->
+<div class="row">
+  <div class="col-sm-12">
+    <!--הצגת אנימציה בעת ביצוע  שינוי ערך של תכונה-->
+    <div style="position:absolute;z-index:1;left:50%;top:40%" *ngIf="inProccess">
+      <preloader [loaderMessage]="'מעדכן נתונים'"></preloader>
+    </div>
+    <div class="pre-scrollable">
+      <table class="table table-condensed table-bordered table-hover">
+        <thead style="background:linear-gradient(#fcfcfc,#d0d0d0)">
+          <tr>
+            <th (click)="setSortCriteria('attrKey')" style="cursor:pointer">
+              שם התכונה
+              <i *ngIf="sortCriteria=='attrKey'" style="color:#0050c0;" class="glyphicon" [ngClass]="{'glyphicon-chevron-down': !isInverse, 'glyphicon-chevron-up':isInverse}"></i></th>
+            <th (click)="setSortCriteria('hebName')" style="cursor:pointer">
+              שם בעברית
+              <i *ngIf="sortCriteria=='hebName'" style="color:#0050c0;" class="glyphicon" [ngClass]="{'glyphicon-chevron-down': !isInverse, 'glyphicon-chevron-up':isInverse}"></i></th>
+            <th (click)="setSortCriteria('attrValue')" style="cursor:pointer">
+              ערך התכונה
+              <i *ngIf="sortCriteria=='attrValue'" style="color:#0050c0;" class="glyphicon" [ngClass]="{'glyphicon-chevron-down': !isInverse, 'glyphicon-chevron-up':isInverse}"></i></th>
+            <th style="width:70px">עריכה</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ca of customAttributes | filterAttributes: filterString | sortCa:sortCriteria:isInverse">
+            <td>{{ca.attrKey}}</td>
+            <td>{{ca.hebName}}</td>
+            <td *ngIf="!isCaEditable(ca.attrKey)" style="min-width:180px">{{ca.attrValue}}</td>
+            <!--תיבת טקסט לעריכה-->
+            <td *ngIf="isCaEditable(ca.attrKey)&&!ca.values" style="padding: 2px 0 0 0 ">
+
+              <!--למה זה מאפשר  לי לשמור  ערכים ריקים אם יש שם אילוץ?-->
+              <form>
+              <input type="text" class="input-sm" [(ngModel)]="ca.attrValue" name="attrValue" required
+              style="min-width:160px;border-style: groove;border-radius: 5px">
+              <input type="submit"> </form></td>
+            <!--הצגת תיבת בחירה במקרה ויש אםשרויות בחירה-->
+            <td *ngIf="isCaEditable(ca.attrKey)&&ca.values">
+              <div class="row">
+              <div class="form-group-sm col-sm-8">
+              <select class="form-control" [(ngModel)]="ca.attrValue">
+        <option *ngFor="let item of ca.values">{{item}}</option>
+      </select></div>
+      </div></td>
+              <!--הצגה של תיבת טקסט לעריכה-->
+              <td class="text-center" *ngIf="!isCaEditable(ca.attrKey)"
+              style="color:#0060c0;cursor: pointer"
+              (click)="currentCustomAttr=ca.attrKey;tempCustomAttribute=ca.attrValue">
+                <i class="glyphicon glyphicon-edit"></i></td>
+              <!-- לחצן לשמירת הנתונים בשרת   -->
+              <td class="text-center" style="vertical-align: middle; cursor: pointer" *ngIf="isCaEditable(ca.attrKey)">
+                <i class="glyphicon glyphicon-ok-circle" (click)="updateCA(ca)" style="font-size:18px;color:#00C000"></i>
+                <!--לחצן לביטול העריכה וחזרה לערך המקורי-->
+                <i class="glyphicon glyphicon-remove-circle" alt="test" (click)="ca.attrValue=tempCustomAttribute;currentCustomAttr=null"
+                  style="font-size:18px"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<preloader *ngIf="isLoading"></preloader>

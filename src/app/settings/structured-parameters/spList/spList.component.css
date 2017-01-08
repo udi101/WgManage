@@ -1,0 +1,38 @@
+th
+{
+    background: linear-gradient(#fcfcfc,#d0d0d0)
+}
+.fa
+{
+    cursor: pointer;
+}
+.glyphicon{
+    cursor: pointer;
+}
+.glyphicon-ok-circle
+{
+    color:#00a000;
+    font-size: 18px;
+    margin-top: 3px;
+}
+
+.glyphicon.glyphicon-remove-circle
+{
+     color:#000;
+     font-size: 18px;
+     margin-top: 3px;
+}
+.loader{
+    position:absolute;
+    top:50%;
+    left:45%;
+}
+th{
+    cursor: pointer;
+}
+th .fa{
+    color:#2050c0;
+}
+input{
+    margin-bottom: 5px;
+}

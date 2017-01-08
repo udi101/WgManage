@@ -1,0 +1,17 @@
+.currentUser {
+  background-color: #3050c0;
+  color: #fff;
+  font-weight: bold;
+}
+
+i {
+  color: #3050c0;
+}
+
+th {
+  cursor: pointer
+}
+.input-sm{
+  border-style: groove;
+  margin-bottom: 5px;
+}

@@ -1,0 +1,28 @@
+<div class="row">
+  <input type="text" class="input-sm" [(ngModel)]="usersFilterString" placeholder="חפש משתמש" />
+</div>
+<div class="row">
+<div class="pre-scrollable">
+  <table class="table table-hover table-bordered table-condensed">
+    <thead style="background:linear-gradient(#fcfcfc,#d0d0d0)">
+      <tr>
+        <th (click)="setSortValue('userId')" style="width:35%">מזהה משתמש
+          <i *ngIf="sortCriteria=='userId'" class="glyphicon" [ngClass]="{'glyphicon-chevron-down': !sortInverse,'glyphicon-chevron-up':sortInverse}"></i></th>
+        <th (click)="setSortValue('displayName')" style="width:65%">שם ושם משפחה
+          <i *ngIf="sortCriteria=='displayName'" class="glyphicon" [ngClass]="{'glyphicon-chevron-down': !sortInverse,'glyphicon-chevron-up':sortInverse}"></i>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of userList | filterUsers : usersFilterString | sortUsers : sortCriteria: sortInverse" (click)="setCurrentUser(user)"
+        style="cursor:pointer">
+        <td [ngClass]="{'currentUser': isCurrentUser(user)}">{{user.userId}}</td>
+        <td [ngClass]="{'currentUser': isCurrentUser(user)}">{{user.displayName}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<!--אנימציה שלפני טעינת הנתונים-->
+<preloader *ngIf="isLoading" [loaderMessage]="'טוען רשימת משתמשים'"></preloader>

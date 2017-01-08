@@ -1,0 +1,47 @@
+  div.linked {
+    cursor: pointer;
+    display: inline-block;
+    color: #3050c0;
+  }
+  
+div.linked:hover {
+    text-decoration: underline;
+}
+
+i{
+  cursor: pointer;
+}
+
+i.glyphicon.glyphicon-remove{
+  color:red;
+}
+
+.dataProcess
+{
+  position: absolute;
+  top:45%;
+  left: 30%;
+}
+
+.input-sm{
+  border-style: groove;
+  margin-bottom: 5px;
+}
+
+.modal#confirmDeleteModal{
+  font-size: 15px;
+  position: absolute;
+  right: 7%;
+  top:10%;
+}
+
+.modal-header
+{
+  color:#2050b0;
+  font-size: 15px;
+}
+
+.fa-plus{
+  color:#2050d0;
+  cursor: pointer;
+}
