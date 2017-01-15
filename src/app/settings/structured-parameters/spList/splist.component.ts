@@ -13,34 +13,33 @@ export class SplistComponent implements OnInit {
   strParamtersList: IStrParameter[];              // רשימת הפרמטרים
   currentStrParameter: IStrParameter;              //  הפרמטר הנוכחי
   @Input() currentProcess: IProcess;
-  tempStrParamaterValue:string;                   // שמירת הערך של הפרמטר לצורך החזרתו במידה ומבטלים את העריכה
+  tempStrParamaterValue: string;                   // שמירת הערך של הפרמטר לצורך החזרתו במידה ומבטלים את העריכה
+ 
+  sortCriteria: string = 'parameterName';      // הערך שלפיו יתבצע מיון הפרמטרים
+  isInverse: boolean = false   // מיון מהסוף להתחלה או מההתחלה לסוף
 
-  sortCriteria:string = 'parameterName';      // הערך שלפיו יתבצע מיון הפרמטרים
-  isInverse:boolean=false   // מיון מהסוף להתחלה או מההתחלה לסוף
-
-  setSortCriteria(_sortCriteria:string)
-  {
-    if(this.sortCriteria == _sortCriteria)
+  setSortCriteria(_sortCriteria: string) {
+    if (this.sortCriteria == _sortCriteria)
       this.isInverse = !this.isInverse;
-      else{
-        this.sortCriteria = _sortCriteria;
-        this.isInverse = false;
-      }
+    else {
+      this.sortCriteria = _sortCriteria;
+      this.isInverse = false;
+    }
   }
 
-  checkSortType(_sortCriteria:string){
-    return this.sortCriteria == _sortCriteria; 
+  checkSortType(_sortCriteria: string) {
+    return this.sortCriteria == _sortCriteria;
   }
 
   // דגלים עבור הצגת אנימציה בטעינת נתונים וביצוע עדכונים
-  isLoadingStrParameters:boolean = false;
-  isUpdatingStrParamter:boolean = false;
+  isLoadingStrParameters: boolean = false;
+  isUpdatingStrParamter: boolean = false;
 
 
   constructor(private _workgroupService: WorkgroupService) { }
 
   ngOnInit() {
-    if(this.currentProcess.processId)
+    if (this.currentProcess.processId)
       this.loadStrParameters(this.currentProcess.processId);
   }
 
@@ -51,20 +50,20 @@ export class SplistComponent implements OnInit {
     this.isLoadingStrParameters = false;
   }
 
-updateStrParameter(_strParameter:IStrParameter)
-  {
+  updateStrParameter(_strParameter: IStrParameter) {
+    if(_strParameter.parameterValue){
     this.isUpdatingStrParamter = true;
     this._workgroupService.updateStrParameter(this.currentProcess, _strParameter).subscribe(
       data => {
-      console.log("strParamter was Updated");
-      this.loadStrParameters(this.currentProcess.processId);
-      this.isUpdatingStrParamter = false;
-  },
+        console.log("strParamter was Updated");
+        this.loadStrParameters(this.currentProcess.processId);
+        this.isUpdatingStrParamter = false;
+      },
       error => {
         console.log("Error in update strParamter");
         this.isUpdatingStrParamter = false;
-    });
-  }
+      });
+  }}
 
   //  קביעת הפקמטר הנוכחי לפרמטר שעליו המשתמש לחץ
   setCurrentStrParameter(_strParameter: IStrParameter): void {
@@ -77,15 +76,18 @@ updateStrParameter(_strParameter:IStrParameter)
     return this.currentStrParameter == _strParameter;
   }
 
-  unselectStrParameter():void
-  {
+  unselectStrParameter(): void {
     this.currentStrParameter.parameterValue = this.tempStrParamaterValue;
     this.currentStrParameter = null;
   }
 
+  // טעינה של כל הפרמטרים של תהליך מסויים
   loadStrParameters(_processName: string) {
     this._workgroupService.loadStrParameters(_processName).subscribe(
-      data => this.strParamtersList = data,
+      data => {
+      this.strParamtersList = data;
+        // console.log("the Data is: " + JSON.stringify(data)); 
+      },
       error => console.log(error));
 
   }

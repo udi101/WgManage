@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import {IUser} from './../../workgroups/users/user.interface';
+import {IUser} from './../../interfaces/user.internface';
 @Component({
     templateUrl: 'usersContainer.component.html'
 })

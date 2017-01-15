@@ -2,7 +2,7 @@
 import { Component, Input } from '@angular/core';
 import { WorkgroupService } from './../../../core/workgroup.service';
 import { IWorkgroup } from './../../../workgroups/workgroup.interface';
-import { IUser } from './../../../workgroups/users/user.interface';
+import { IUser } from  './../../../interfaces/user.internface';
 
 @Component({
     selector: 'users-wg-list',

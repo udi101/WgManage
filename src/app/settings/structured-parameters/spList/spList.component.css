@@ -9,11 +9,9 @@ th
 .glyphicon{
     cursor: pointer;
 }
-.glyphicon-ok-circle
+.glyphicon-save
 {
-    color:#00a000;
-    font-size: 18px;
-    margin-top: 3px;
+    color:#0050b0;
 }
 
 .glyphicon.glyphicon-remove-circle
@@ -35,4 +33,10 @@ th .fa{
 }
 input{
     margin-bottom: 5px;
+}
+.alert{
+    display: inline-block;
+    height:30px;
+    padding: 3px 30px;
+    margin: 0px;
 }

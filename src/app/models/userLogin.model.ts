@@ -1,10 +1,17 @@
+import {IUser} from './../interfaces/user.internface'
+import {WorkgroupService} from './../core/workgroup.service'
 
-export class UserLoginModel {
-    firstName: string = "";
-    lastName: string = "";
-    isOperated: boolean = false;
-    moked:string;
+export class UserLoginModel implements IUser {
+    userId:string;
+    displayName:string;
+    isActive:boolean;
+    password:string;
     role:string;
 
-    constructor() { }
+    constructor(private _workgroupServie:WorkgroupService){}
+
+    //פונקציה לרישום משתמש
+    registerUser(){
+        console.log(this.userId);
+    }
 }

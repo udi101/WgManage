@@ -24,9 +24,10 @@ import { WgTabsComponent } from './workgroups/wgTabs/wgTabs.component';
 import { UsersContainerComponent } from './settings/users/usersContainer.component';
 import { UsersWgListComponent } from './settings/users/usersWgList/usersWgList.component';
 import { SpContainerComponent } from './settings/structured-parameters/spContainer.component';
-import { ProcessDnisComponent } from './settings/process-dnis/process-dnis.component';
+import { ProcessDnisComponent } from './settings/processDnis/processdnis.component';
 import { UsersListComponent } from './settings/users/users-list/users-list.component';
 import { ProcessListComponent } from './settings/structured-parameters/process-list/processList.component';
+import { CreateNewWgComponent } from './workgroups/create/createNewWg.component';
 
 // Services
 import { WorkgroupService } from './core/workgroup.service';
@@ -44,7 +45,8 @@ import { UsersFilterPipe } from './workgroups/users/usersFilter.pipe';
 import { SplistComponent } from './settings/structured-parameters/splist/splist.component';
 import { SortStrParametersPipe } from './settings/pipes/sortstrparameters.pipe';
 import { FilterStrParametersPipe } from './settings/pipes/filterstrparameters.pipe';
-import { CreateNewWgComponent } from './workgroups/create/createNewWg.component';
+import { SortusersPipe } from './pipes/sortusers.pipe';
+
 
 
 @NgModule({
@@ -79,7 +81,8 @@ import { CreateNewWgComponent } from './workgroups/create/createNewWg.component'
     SplistComponent,
     SortStrParametersPipe,
     FilterStrParametersPipe,
-    CreateNewWgComponent
+    CreateNewWgComponent,
+    SortusersPipe
   ],
   imports: [
     BrowserModule,
@@ -96,8 +99,8 @@ import { CreateNewWgComponent } from './workgroups/create/createNewWg.component'
       { path: "ProccessesWg/:acg/:currentWorkgroup", component: spWgContainerComponent },
       { path: "users", component: UsersContainerComponent, canActivate: [LoginGuard] },
       { path: "users/:id", component: UsersContainerComponent },
-      { path: "structuredParameters", component: SpContainerComponent, canActivate: [LoginGuard] },
-      { path: "processDnis", component: ProcessDnisComponent, canActivate: [LoginGuard] },
+      { path: "structuredParameters", component: SpContainerComponent },
+      { path: "processDnis", component: ProcessDnisComponent },
       { path: '', component: HomeComponent },
       { path: '**', component: HomeComponent }
     ])

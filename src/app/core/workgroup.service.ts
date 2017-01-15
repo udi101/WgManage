@@ -3,7 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { ICustomAttribute } from './../workgroups/customAttributes/customAttribute.interface'
 import { IProcess } from './../interfaces/process.interface';
 import { IStrParameter } from './../interfaces/strParameter.interface';
-import { IUser } from './../workgroups/users/user.interface';
+import { IUser } from './../interfaces/user.internface';
 import { IWorkgroup } from './../workgroups/workgroup.interface';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/Operator/map';
@@ -22,9 +22,8 @@ export class WorkgroupService {
   private workgroupUrl: string = 'http://localhost/WebApi/api/workgroups/';
   // private workgroupUrl:string = 'http://hhw-rgininap31/WebApi/api/workgroups/';
 
-
   private processUrl: string = 'http://localhost/WebApi/api/processes/';
-
+  // private processUrl :string = 'http://hhw-rgininap31/WebApi/api/processes/';
 
   private caUrl: string = 'http://localhost/WebApi/api/customAttribute/';
   //  private caUrl:string = 'http://hhw-rgininap31/WebApi/api/customAttributes/';
@@ -57,14 +56,14 @@ export class WorkgroupService {
   }
 
 
-  // טעינה של כל התהליכים במערכת
+  // שליפה של כל התהליכים במערכת
   loadProcesses(): Observable<IProcess[]> {
     return this._http.get(this.processUrl)
       .map((response: Response) => <IProcess[]>response.json())
       .catch(this.handleError);
   }
 
-  // טעינה של כל הפרמטרים של תהליך מסויים 
+  // שליפה של כל הפרמטרים של תהליך מסויים 
   loadStrParameters(_processName: string): Observable<IStrParameter[]> {
     return this._http.get(this.processUrl + _processName)
       .map((response: Response) => <IStrParameter[]>response.json())

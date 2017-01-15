@@ -1,0 +1,38 @@
+<div class="page-header">
+  <div class="row">
+    <div class="col-sm-5">
+      <breadcrumbs [navGroup]="'הגדרות'" [operation]="'מספרי גישה'"></breadcrumbs>
+    </div>
+    <div class="col-sm-7">
+      <h4>ניהול מספרי גישה</h4>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-11">
+    <table class="table table-condensed table-bordered">
+      <thead>
+        <tr>
+          <th>מספר הגישה</th>
+          <th>מספר מוקד</th>
+          <th>שם המוקד</th>
+          <th>מספר התהליך</th>
+          <th>שם התהליך</th>
+          <th>קטגוריה</th>
+          <th>עריכה</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of processDnis">
+          <td>{{item.dnis}}</td>
+          <td>{{item.mokedId}}</td>
+          <td>{{item.mokedName}}</td>
+          <td>{{item.processId}}</td>
+          <td>{{item.processName}}</td>
+          <td>{{item.category}}</td>
+          <td class="text-center"><i class="glyphicon glyphicon-edit"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

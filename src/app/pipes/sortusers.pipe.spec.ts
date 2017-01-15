@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { SortStrParametersPipe } from './sortstrparameters.pipe';
+import { SortusersPipe } from './sortusers.pipe';
 
-describe('Pipe: Sortstrparameters', () => {
+describe('Pipe: Sortusers', () => {
   it('create an instance', () => {
-    let pipe = new SortStrParametersPipe();
+    let pipe = new SortusersPipe();
     expect(pipe).toBeTruthy();
   });
 });

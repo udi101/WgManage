@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import { WorkgroupService } from './../../../core/workgroup.service';
-import { IUser } from '../../../workgroups/users/user.interface';
+import { IUser } from './../../../interfaces/user.internface';
 
 @Component({
   selector: 'users-list',

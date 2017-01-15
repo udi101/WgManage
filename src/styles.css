@@ -1,7 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
-body { padding-top: 70px; overflow-y:hidden;font-size:12px  }
+body {
+  padding-top: 70px;
+  overflow-y: hidden;
+  font-size: 12px
+}
+
+.page-header {
+margin-top: 0;
+padding: 0;
+}
+.page-header h4{
+  color:#0050c0;
+  font-weight: bolder;
+  font-size: 16px;
+  text-decoration: underline;
+}
+
 .pre-scrollable {
-    max-height: 390px;
-    /*max-height: 650px;*/
+  max-height: 390px;
+  /*max-height: 650px;*/
 }

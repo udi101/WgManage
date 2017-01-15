@@ -29,14 +29,51 @@
             <td>{{strParameter.parameterName}}</td>
             <td>{{strParameter.hebName}}</td>
             <td *ngIf="!isCurrntParameter(strParameter)">{{strParameter.parameterValue}}</td>
-            <td *ngIf="isCurrntParameter(strParameter)">
+
+            <!--============ תיבת טקסט לעריכה ==================-->
+            <td *ngIf="isCurrntParameter(strParameter)&&!strParameter.values">
+              <form #form="ngForm">
+                <div class="form-group-sm" [class.has-error]="strParameterName.invalid">
               <div class="row">
-                <div class="col-xs-9"><input type="text" class="form-control input-sm" 
-                  [(ngModel)]="strParameter.parameterValue" /></div>
-                <div style="text-align: right">
-                  <i class="glyphicon glyphicon-ok-circle" (click)="updateStrParameter(strParameter)"></i></div>
-              </div>
-            </td> 
+                <div class="col-sm-8">
+                  <input type="text" #strParameterName="ngModel" name="strParameterValue" required
+                  class="form-control input-sm" 
+                  [(ngModel)]="strParameter.parameterValue" />
+                  <!--אזהרה המופיעה כשהערך הוא ריק-->
+                  <div *ngIf="strParameterName.invalid" class="alert alert-danger alert-dismissible">
+                    <i class="close" data-dismiss="alert">&times;</i>
+                    יש להזין ערך</div>
+                  </div>
+                  <label class="btn btn-default btn-sm control-label" [class.disabled]="strParameterName.invalid"
+                   (click)="updateStrParameter(strParameter)">
+                  <i class="glyphicon glyphicon-save"></i> שמירה</label>
+                  </div>
+              </div>              
+              </form></td> 
+              <!--================================================-->
+              
+              <!--======== בחירה בין אפשרויות במידה ויש ערכים ============ -->
+              <td *ngIf="isCurrntParameter(strParameter)&&strParameter.values">
+                <form #from="ngForm">
+                  <div class="form-group-sm">
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <select name="slcStrParameterValue" #slcStrParameterValue="ngModel"
+                          class="form-control" 
+                          [(ngModel)]="strParameter.parameterValue">
+                          <option *ngFor="let item of strParameter.values">{{item}}</option>
+                        </select>
+                      </div>
+                <label class="btn btn-default btn-sm control-label" [class.disabled]="slcStrParameterValue.invalid"
+                   (click)="updateStrParameter(strParameter)">
+                  <i class="glyphicon glyphicon-save"></i> שמירה</label>
+
+                    </div>
+                  </div>
+                </form>
+
+              </td>
+
             <td *ngIf="!isCurrntParameter(strParameter)" class="text-center">
               <i (click)="setCurrentStrParameter(strParameter)" class="glyphicon glyphicon-edit" style="color:#2040a0"></i></td>
             <td *ngIf="isCurrntParameter(strParameter)" class="text-center">
@@ -52,6 +89,11 @@
   <preloader *ngIf="isLoadingStrParameters" [loaderMessage]="'טוען פרמטרים...'"></preloader>
   <preloader class="loader" *ngIf="isUpdatingStrParamter" [loaderMessage]="'מעדכן פרמטר..'"></preloader>
 </div>
+
+
+
+
+
 <!--
 כספת 530
 חובה 1227

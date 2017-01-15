@@ -1,8 +1,8 @@
 
 import { Component, Input, OnChanges } from '@angular/core';
 import { WorkgroupService } from './../../core/workgroup.service';
-import { IUser } from './user.interface';
-// declare var $:any;
+import { IUser } from './../../interfaces/user.internface'; 
+
 
 @Component({
     selector: 'user-list',
