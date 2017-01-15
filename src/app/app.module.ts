@@ -39,13 +39,16 @@ import { orderByPipe } from './workgroups/acg/orderBy.pipe';
 import { FilterWorkgroupPipe } from './workgroups/filterWorkgroup.pipe';
 import { OrderWorkgroupsPipe } from './workgroups/orderWorkgroups.pipe';
 import { CustomAttributesSortPipe } from './workgroups/customAttributes/caSort.pipe';
-import { FilterAttributesPipe } from './workgroups/customAttributes/filterAttributes.pipe';
-import { sortUsersPipe } from './workgroups/users/usersSort.pipe';
-import { UsersFilterPipe } from './workgroups/users/usersFilter.pipe';
+// import { FilterAttributesPipe } from './workgroups/customAttributes/filterAttributes.pipe';
+// import { UsersFilterPipe } from './workgroups/users/usersFilter.pipe';
 import { SplistComponent } from './settings/structured-parameters/splist/splist.component';
 import { SortStrParametersPipe } from './settings/pipes/sortstrparameters.pipe';
 import { FilterStrParametersPipe } from './settings/pipes/filterstrparameters.pipe';
-import { SortusersPipe } from './pipes/sortusers.pipe';
+import { SortUsersPipe } from './pipes/Users/sort-users.pipe';
+import { FilterUsersPipe } from './pipes/Users/filter-users.pipe';
+import { FilterAttributesPipe } from './pipes/CAttributes/filterAttributes.pipe';
+import { SortattributesPipe } from './pipes/CAttributes/sortattributes.pipe';
+
 
 
 
@@ -63,11 +66,10 @@ import { SortusersPipe } from './pipes/sortusers.pipe';
     CAListComponent,
     PreloaderComponent,
     CustomAttributesSortPipe,
-    FilterAttributesPipe,
+    // FilterAttributesPipe,
     UsersWgContainerComponent,
     wgUsersListComponent,
-    sortUsersPipe,
-    UsersFilterPipe,
+    // UsersFilterPipe,
     spWgContainerComponent,
     SpWgListComponent,
     BreadcrumbsComponent,
@@ -82,7 +84,10 @@ import { SortusersPipe } from './pipes/sortusers.pipe';
     SortStrParametersPipe,
     FilterStrParametersPipe,
     CreateNewWgComponent,
-    SortusersPipe
+    SortUsersPipe,
+    FilterUsersPipe,
+    FilterAttributesPipe,
+    SortattributesPipe
   ],
   imports: [
     BrowserModule,
@@ -93,11 +98,11 @@ import { SortusersPipe } from './pipes/sortusers.pipe';
       { path: "Create_Workgroup", component: CreateNewWgComponent },
       { path: "CustomAttributes", component: CAttrContainer},
       { path: "CustomAttributes/:acg/:currentWorkgroup", component: CAttrContainer },
-      { path: "UsersWg", component: UsersWgContainerComponent, canActivate: [LoginGuard] },
+      { path: "UsersWg", component: UsersWgContainerComponent},
       { path: "UsersWg/:acg/:currentWorkgroup", component: UsersWgContainerComponent },
       { path: "ProccessesWg", component: spWgContainerComponent, canActivate: [LoginGuard] },
       { path: "ProccessesWg/:acg/:currentWorkgroup", component: spWgContainerComponent },
-      { path: "users", component: UsersContainerComponent, canActivate: [LoginGuard] },
+      { path: "users", component: UsersContainerComponent},
       { path: "users/:id", component: UsersContainerComponent },
       { path: "structuredParameters", component: SpContainerComponent },
       { path: "processDnis", component: ProcessDnisComponent },

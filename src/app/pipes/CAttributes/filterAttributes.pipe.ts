@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {ICustomAttribute} from './../../interfaces/customAttribute.interface';
-
 @Pipe({
-    name: 'filterAttributes'
+  name: 'filterAttributes'
 })
 export class FilterAttributesPipe implements PipeTransform {
     transform(_customAttributes: ICustomAttribute[],_searchString:string): ICustomAttribute[] {

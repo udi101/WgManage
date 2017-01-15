@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-import { ICustomAttribute } from './../workgroups/customAttributes/customAttribute.interface'
+import { ICustomAttribute } from './../interfaces/customAttribute.interface';
 import { IProcess } from './../interfaces/process.interface';
 import { IStrParameter } from './../interfaces/strParameter.interface';
 import { IUser } from './../interfaces/user.internface';

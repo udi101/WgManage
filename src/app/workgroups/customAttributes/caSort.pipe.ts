@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ICustomAttribute } from './customAttribute.interface';
+import { ICustomAttribute } from './../../interfaces/customAttribute.interface';
 
 @Pipe({
     name: 'sortCa'

@@ -1,7 +1,7 @@
 
 import { Component, Input, OnChanges } from '@angular/core';
 import { WorkgroupService } from './../../core/workgroup.service';
-import { ICustomAttribute } from './customAttribute.interface';
+import {ICustomAttribute} from './../../interfaces/customAttribute.interface';
 
 @Component({
     selector: 'ca-list',
