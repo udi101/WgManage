@@ -45,3 +45,9 @@ i.glyphicon.glyphicon-remove{
   color:#2050d0;
   cursor: pointer;
 }
+.glyphicon{
+  color:#0040c0;
+}
+thead{
+   background:linear-gradient(#f7f7f7,#d7d7d7);
+}

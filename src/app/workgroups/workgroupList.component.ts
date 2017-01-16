@@ -2,6 +2,7 @@
 import { Component, Input, Output, OnChanges, EventEmitter } from '@angular/core';
 import { WorkgroupService } from './../core/workgroup.service';
 import {ActivatedRoute} from '@angular/router';
+import {IWorkgroup} from './../interfaces/workgroup.interface';
 
 @Component({
     selector: 'workgroup-list',
@@ -30,9 +31,9 @@ export class WorkgroupListComponent implements OnChanges {
     }
 
     // הדגשה של הקבוצה הנבחרת
-    checkSelectedWg(_workgroup: string): boolean {
+    checkSelectedWg(_workgroup:IWorkgroup ): boolean {
         if (_workgroup)
-            return this.currentWorkgroup == _workgroup;
+            return this.currentWorkgroup == _workgroup.workgroupName;
         return false;
     }
     

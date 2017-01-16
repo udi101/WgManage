@@ -1,8 +1,8 @@
 
 import { Component, Input } from '@angular/core';
-import { WorkgroupService } from './../../../core/workgroup.service';
-import { IWorkgroup } from './../../../workgroups/workgroup.interface';
-import { IUser } from  './../../../interfaces/user.internface';
+import { WorkgroupService } from './../../../core/workgroup.service'; 
+import { IWorkgroup } from './../../../interfaces/workgroup.interface';
+import { IUser } from './../../../interfaces/user.internface';
 
 @Component({
     selector: 'users-wg-list',
@@ -12,15 +12,17 @@ import { IUser } from  './../../../interfaces/user.internface';
 export class UsersWgListComponent {
 
     workgroupList: Array<IWorkgroup> = [];      // רשימת הקבוצות
-    candidatesWg: Array<IWorkgroup>=  [] ;      // קבוצות שבהן המשתמש אינו חבר
+    candidatesWg: Array<IWorkgroup> = [];      // קבוצות שבהן המשתמש אינו חבר
     @Input() currentUser: IUser = null;         // היוזר שהמשתמש בחר
 
-// ===== אנימציות של טעינה ועיבוד נתונים =====    
+    // ===== אנימציות של טעינה ועיבוד נתונים =====    
     isLoading: boolean = false;                 // האם אנימצית  הטעינה תוצג או לא
     inProcess: boolean = false;                 // האם להציג אנימציה כאשר המערכת מחשבת נתונים
-    isCandidatesWgLoading:boolean = false;      //  האם יש טעינה של קבוצות מועמדות למשתמש
+    isCandidatesWgLoading: boolean = false;      //  האם יש טעינה של קבוצות מועמדות למשתמש
 
-    sortCriteria: string = 'workgroupName';               // השדה שלפיו יתבצע מיון הקבוצות בטבלה 
+    sortCriteria: string = 'workgroupName';             // השדה שלפיו יתבצע מיון הקבוצות בטבלה 
+    isInverse: boolean = false;                         //  שינוי כיוון החיפוש
+    filterCriteria:string = "";                         // הערך לפיו יתבצע סינון של הנתונים 
 
     currentWorkgroup: IWorkgroup = <IWorkgroup>{ workgroupName: '' }
     constructor(private _workgroupService: WorkgroupService) { }
@@ -35,41 +37,45 @@ export class UsersWgListComponent {
         }
     }
 
-    addUserToWorkgroup(_workgroup:IWorkgroup){
+    addUserToWorkgroup(_workgroup: IWorkgroup) {
         this._workgroupService.addUserToWorkgroup(_workgroup.workgroupName, this.currentUser).subscribe(
-    data => {
-        console.log("Id added the user");
-        this.getCandidatesWgForUser();
-        this.getWorkgroupsOfUser();
-},
-    error => {console.log("There was an error in adding user to workgroup");}
+            data => {
+                console.log("Id added the user");
+                this.getCandidatesWgForUser();
+                this.getWorkgroupsOfUser();
+            },
+            error => { console.log("There was an error in adding user to workgroup"); }
         )
     }
 
-
-
+    // שליפה של רשימת הקבוצות בהן המשתמש אינו חבר
     getCandidatesWgForUser(): void {
         this.isCandidatesWgLoading = true;
         this._workgroupService.getCandidatesWgForUser(this.currentUser.userId).subscribe(
             data => {
                 this.candidatesWg = data;
-            this.isCandidatesWgLoading = false;
-        },
+                this.isCandidatesWgLoading = false;
+            },
             error => {
-            console.log(error);
-            this.isCandidatesWgLoading = false;
-    });
+                console.log(error);
+                this.isCandidatesWgLoading = false;
+            });
     }
+
 
     // לחיצה על לחצן המחיקה קובע מי היא הקבוצה הנוכחית
     setCurrentWorkgroup(_workgroup: IWorkgroup) {
-        // console.log("The selected Workgroup of usersWgList is: " + _workgroup.workgroupName);
         this.currentWorkgroup = _workgroup;
     }
 
     // קביעה של הקריטריון שלפיו יתבצע חיפוש
     setSortCriteria(criteria: string) {
-        this.sortCriteria = criteria;
+        if (this.sortCriteria == criteria)
+            this.isInverse = !this.isInverse;
+        else {
+            this.sortCriteria = criteria;
+            this.isInverse = false;
+        }
     }
 
     // שליפה רשימה של כל המשתמשים במערכת

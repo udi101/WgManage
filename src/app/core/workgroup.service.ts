@@ -4,7 +4,7 @@ import { ICustomAttribute } from './../interfaces/customAttribute.interface';
 import { IProcess } from './../interfaces/process.interface';
 import { IStrParameter } from './../interfaces/strParameter.interface';
 import { IUser } from './../interfaces/user.internface';
-import { IWorkgroup } from './../workgroups/workgroup.interface';
+import { IWorkgroup } from './../interfaces/workgroup.interface';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/Operator/map';
 import 'rxjs/add/Operator/do';

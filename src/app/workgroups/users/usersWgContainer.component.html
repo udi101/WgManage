@@ -1,20 +1,25 @@
-<!--פירורי לחם להתמצאות במערכת-->
-<div class="row">
-    <breadcrumbs    [navGroup]="'ניהול קבוצות עבודה'" 
-                    [operation]="'ניהול משתמשים בתור'" 
-                    [element]="currentWorkgroup">
-    </breadcrumbs>
+<div class="page-header">
+  <div class="row">
+    <div class="col-sm-5">
+      <!--פירורי לחם להתמצאות במערכת-->
+        <breadcrumbs [navGroup]="'ניהול קבוצות עבודה'" [operation]="'ניהול משתמשים בתור'" [element]="currentWorkgroup">
+        </breadcrumbs>
+    </div>
+    <div class="col-sm-7">
+        <h4>ניהול משתמשים בקבוצה</h4>
+    </div>
+  </div>
 </div>
 
+
 <div class="row">
-    <div [ngClass]="{'col-sm-2': !isWideDisplay,'hidden':isWideDisplay}">
-        <acg-list (acgSelect)="acgSelect($event)"></acg-list></div>
-
-    <div class="col-sm-2"><workgroup-list [newAcg]="currentAcg"
-        (workgroupSelect)="workgroupSelect($event)" (toggleDisplay)="changeDisplay()" 
-        [isWideDisplay]="isWideDisplay"></workgroup-list></div>
-
-    <div [ngClass]="{'col-sm-8': !isWideDisplay, 'col-sm-10': isWideDisplay}">
-        <user-list [currnetWorkgroup]="currentWorkgroup"></user-list></div>
+  <div [ngClass]="{'col-sm-2': !isWideDisplay,'hidden':isWideDisplay}">
+    <acg-list (acgSelect)="acgSelect($event)"></acg-list>
+  </div>
+  <div class="col-sm-2">
+    <workgroup-list [newAcg]="currentAcg" (workgroupSelect)="workgroupSelect($event)" (toggleDisplay)="changeDisplay()" [isWideDisplay]="isWideDisplay"></workgroup-list>
+  </div>
+  <div [ngClass]="{'col-sm-8': !isWideDisplay, 'col-sm-10': isWideDisplay}">
+    <user-list [currnetWorkgroup]="currentWorkgroup"></user-list>
+  </div>
 </div>
-

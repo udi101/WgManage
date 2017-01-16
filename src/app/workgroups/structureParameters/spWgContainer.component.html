@@ -1,10 +1,19 @@
-<!--פירורי לחם להתמצאות במערכת-->
+<div class="page-header">
 <div class="row">
+    <div class="col-sm-5">
+<!--פירורי לחם להתמצאות במערכת-->
     <breadcrumbs    [navGroup]="'ניהול קבוצות עבודה'" 
                     [operation]="'תהליכים קשורים'" 
                     [element]="currentWorkgroup">
     </breadcrumbs>
-</div>
+    </div>
+    <div class="col-sm-7">
+        <h4>תהליכים קשורים</h4>
+    </div>
+</div></div>
+
+
+
 
 <div class="row">
     <div [ngClass]="{'col-sm-2': !isWideDisplay,'hidden':isWideDisplay}">

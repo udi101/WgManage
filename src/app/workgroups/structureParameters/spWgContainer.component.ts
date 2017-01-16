@@ -23,6 +23,7 @@ export class spWgContainerComponent {
         }
     }
 
+    // הצבה של הקבוצה שהמשתמש בחר
     workgroupSelect(_workgroup: string): void {
         this.currentWorkgroup = _workgroup;
     }

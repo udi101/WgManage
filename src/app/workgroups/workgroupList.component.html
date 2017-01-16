@@ -10,8 +10,8 @@
 <!-- === רשימת הקבוצות === -->
 <div class="pre-scrollable">
   <table class="table table-condensed table-bordered table-hover">
-    <tr style="cursor:pointer" *ngFor="let workgroup of workgroupList | filterWorkroup : workgroupSearchString">
-      <td (click)="refreshAttributes(workgroup)" [ngClass]="{selectedWg: checkSelectedWg(workgroup)}" style="overflow: hidden">{{workgroup}}</td>
+    <tr style="cursor:pointer" *ngFor="let workgroup of workgroupList | filterWorkgroups : workgroupSearchString">
+      <td (click)="refreshAttributes(workgroup.workgroupName)" [ngClass]="{selectedWg: checkSelectedWg(workgroup)}" style="overflow: hidden">{{workgroup.workgroupName}}</td>
     </tr>
   </table>
 </div>

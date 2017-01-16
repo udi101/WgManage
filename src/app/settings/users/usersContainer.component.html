@@ -1,15 +1,25 @@
-
-<!--פירורי לחם להתמצאות במערכת-->
-<div class="row">
-    <breadcrumbs    [navGroup]="'הגדרות'" 
-                    [operation]="'ניהול משתמשים'" 
-                    [element]="currentUser.displayName">
-    </breadcrumbs>
+<div class="page-header">
+  <div class="row">
+    <div class="col-sm-5">
+      <!--פירורי לחם להתמצאות במערכת-->
+      <breadcrumbs [navGroup]="'הגדרות'" [operation]="'ניהול משתמשים'" [element]="currentUser.displayName">
+      </breadcrumbs>
+    </div>
+    <div class="col-sm-7">
+        <h4>ניהול משתמשים</h4>
+    </div>
+  </div>
 </div>
 
+
+
 <div class="row">
-    <div class="col-sm-12">
-    <div class="col-sm-4"><users-list (selectUser)="setCurrentUser($event)"></users-list></div>
-    <div class="col-sm-8"><users-wg-list [currentUser]="currentUser"></users-wg-list></div>
+  <div class="col-sm-12">
+    <div class="col-sm-4">
+      <users-list (selectUser)="setCurrentUser($event)"></users-list>
     </div>
+    <div class="col-sm-8">
+      <users-wg-list [currentUser]="currentUser"></users-wg-list>
+    </div>
+  </div>
 </div>

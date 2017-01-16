@@ -7,14 +7,11 @@ import { UserLoginModel } from './../../models/userLogin.model';
 })
 export class CreateNewWgComponent implements OnInit {
 
-
-
   constructor() { }
 
   check(){
     console.log("test");
   }
-
 
   ngOnInit() {
 

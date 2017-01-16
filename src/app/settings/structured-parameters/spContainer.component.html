@@ -1,9 +1,20 @@
-<div class="row">
-    <div class="col-sm-12">
-  <breadcrumbs [navGroup]="'הגדרות'"
-  [operation]="'משתנים של תהליכים'"
-  [element]="currentProcess.processName"></breadcrumbs>
-</div></div>
+<div class="page-header">
+  <div class="row">
+    <div class="col-sm-5">
+      <!--רכיב פרורי לחם להתמצאות-->
+      <breadcrumbs [navGroup]="'הגדרות'"
+      [operation]="'משתנים של תהליכים'"
+      [element]="currentProcess.processName"></breadcrumbs>
+    </div>
+    <div class="col-sm-7">
+      <h4>משתנים של תהליכים</h4>
+    </div>
+  </div>
+</div>
+
+
+
+
 <div class="row">
   <div class="col-sm-4">
     <process-list (selectCurrentProcess)="setCurrentProcess($event)"></process-list>

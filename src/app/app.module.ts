@@ -36,11 +36,7 @@ import { LoginGuard } from './core/loginGuard.service';
 
 // Pipes
 import { orderByPipe } from './workgroups/acg/orderBy.pipe';
-import { FilterWorkgroupPipe } from './workgroups/filterWorkgroup.pipe';
-import { OrderWorkgroupsPipe } from './workgroups/orderWorkgroups.pipe';
-import { CustomAttributesSortPipe } from './workgroups/customAttributes/caSort.pipe';
-// import { FilterAttributesPipe } from './workgroups/customAttributes/filterAttributes.pipe';
-// import { UsersFilterPipe } from './workgroups/users/usersFilter.pipe';
+// import { FilterWorkgroupPipe } from './workgroups/filterWorkgroup.pipe';
 import { SplistComponent } from './settings/structured-parameters/splist/splist.component';
 import { SortStrParametersPipe } from './settings/pipes/sortstrparameters.pipe';
 import { FilterStrParametersPipe } from './settings/pipes/filterstrparameters.pipe';
@@ -48,6 +44,8 @@ import { SortUsersPipe } from './pipes/Users/sort-users.pipe';
 import { FilterUsersPipe } from './pipes/Users/filter-users.pipe';
 import { FilterAttributesPipe } from './pipes/CAttributes/filterAttributes.pipe';
 import { SortattributesPipe } from './pipes/CAttributes/sortattributes.pipe';
+import { SortworkgroupsPipe } from './pipes/workgroups/sortworkgroups.pipe';
+import { FilterworkgroupsPipe } from './pipes/workgroups/filterworkgroups.pipe';
 
 
 
@@ -59,13 +57,13 @@ import { SortattributesPipe } from './pipes/CAttributes/sortattributes.pipe';
     HomeComponent,
     AcgListComponent,
     orderByPipe,
-    FilterWorkgroupPipe,
-    OrderWorkgroupsPipe,
+    // FilterWorkgroupPipe,
+    // OrderWorkgroupsPipe,
     CAttrContainer,
     WorkgroupListComponent,
     CAListComponent,
     PreloaderComponent,
-    CustomAttributesSortPipe,
+    // CustomAttributesSortPipe,
     // FilterAttributesPipe,
     UsersWgContainerComponent,
     wgUsersListComponent,
@@ -87,7 +85,9 @@ import { SortattributesPipe } from './pipes/CAttributes/sortattributes.pipe';
     SortUsersPipe,
     FilterUsersPipe,
     FilterAttributesPipe,
-    SortattributesPipe
+    SortattributesPipe,
+    SortworkgroupsPipe,
+    FilterworkgroupsPipe
   ],
   imports: [
     BrowserModule,
@@ -100,10 +100,10 @@ import { SortattributesPipe } from './pipes/CAttributes/sortattributes.pipe';
       { path: "CustomAttributes/:acg/:currentWorkgroup", component: CAttrContainer },
       { path: "UsersWg", component: UsersWgContainerComponent},
       { path: "UsersWg/:acg/:currentWorkgroup", component: UsersWgContainerComponent },
-      { path: "ProccessesWg", component: spWgContainerComponent, canActivate: [LoginGuard] },
+      { path: "ProccessesWg", component: spWgContainerComponent },
       { path: "ProccessesWg/:acg/:currentWorkgroup", component: spWgContainerComponent },
       { path: "users", component: UsersContainerComponent},
-      { path: "users/:id", component: UsersContainerComponent },
+      { path: "users/:id", component: UsersContainerComponent, canActivate: [LoginGuard] },
       { path: "structuredParameters", component: SpContainerComponent },
       { path: "processDnis", component: ProcessDnisComponent },
       { path: '', component: HomeComponent },
