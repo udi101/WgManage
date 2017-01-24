@@ -14,3 +14,10 @@
   position: absolute;
   bottom: 0px
 }
+
+.alert{
+    display: inline-block;
+    height:30px;
+    padding: 3px 30px;
+    margin: 0px;
+}

@@ -8,6 +8,6 @@ export class LoginGuard implements CanActivate {
     constructor(private _workgroupService: WorkgroupService) { }
 
     canActivate(): boolean {
-        return this._workgroupService.userId != null;
+        return this._workgroupService.loggedUser.userId != null;
     }
 }

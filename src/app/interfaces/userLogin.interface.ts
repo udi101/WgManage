@@ -1,5 +1,6 @@
-import {IUser} from './user.internface'
-export interface IUserLogin extends IUser{
-    role:string;
-    password:string;
+export interface IUserLogin {
+    userId: string;
+    userPassword: string;
+    displayName: string;
+    role: string;
 }

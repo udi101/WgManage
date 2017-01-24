@@ -4,6 +4,7 @@ import { ICustomAttribute } from './../interfaces/customAttribute.interface';
 import { IProcess } from './../interfaces/process.interface';
 import { IStrParameter } from './../interfaces/strParameter.interface';
 import { IUser } from './../interfaces/user.internface';
+import { userLogin } from './../models/userLogin.model';
 import { IWorkgroup } from './../interfaces/workgroup.interface';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/Operator/map';
@@ -15,10 +16,11 @@ export class WorkgroupService {
   currentWorkgroup: string = '';
   currentAcg: string = '';
 
-// === משתנים עבור ההתחברות למערכת
-  userId:string = null;
-  userPassword:string = null;
+// === משתמש עבור ההתחברות למערכת
 
+  loggedUser:userLogin = new userLogin();
+
+  
   private workgroupUrl: string = 'http://localhost/WebApi/api/workgroups/';
   // private workgroupUrl:string = 'http://hhw-rgininap31/WebApi/api/workgroups/';
 
@@ -37,6 +39,7 @@ export class WorkgroupService {
 
   constructor(private _http: Http) { }
 
+
   // === טיפול בשגיאות
   private handleError(error: Response): Observable<any> {
     console.log(error.json());
@@ -44,15 +47,14 @@ export class WorkgroupService {
   }
 
   // התחברות למערכת
-  connect(_user:string,_password:string):Observable<string>{
-    let url = this.usersUrl + "connectUser/" + _user; 
+  loggingUser(_user:string,_password:string):Observable<userLogin>{
+    let url = this.usersUrl + "Login/" + _user; 
     let body = JSON.stringify({"password":_password});
     let headers:Headers = new Headers();
     headers.append('Content-Type','application/json');
-    this._http.post(url,body,{headers:headers})
-    .map((response:Response) => <string>response.json())
+    return this._http.post(url,body,{headers:headers})
+    .map((response:Response) => <userLogin>response.json())
     .catch(this.handleError);
-    return ;
   }
 
 

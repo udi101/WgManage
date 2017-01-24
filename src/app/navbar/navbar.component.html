@@ -16,13 +16,13 @@
                             ניהול קבוצות<i class="caret"></i>
                         </a>
           <ul class="dropdown-menu">
-            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+            <li [ngClass]="{'disabled': !_workgroupService.loggedUser.userId}">
               <a [routerLink]="['/CustomAttributes']"><i class="fa fa-server"></i> תכונות מותאמות אישית</a></li>
-            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+            <li [ngClass]="{'disabled': !_workgroupService.loggedUser.userId}">
               <a [routerLink]="['/UsersWg']"><i class="fa fa-user"></i> ניהול משתמשים  בקבוצה</a></li>
-            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+            <li [ngClass]="{'disabled': !_workgroupService.loggedUser.userId}">
               <a [routerLink]="['/Create_Workgroup']"><i class="fa fa-group"></i> הקמת קבוצה חדשה</a></li>
-            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+            <li [ngClass]="{'disabled': !_workgroupService.loggedUser.userId}">
               <a [routerLink]="['/ProccessesWg']"><i class="fa fa-link"></i> תהליכים קשורים</a></li>
           </ul>
         </li>
@@ -31,30 +31,32 @@
                             הגדרות<i class="caret"></i>
                         </a>
           <ul class="dropdown-menu">
-            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+            <li [ngClass]="{'disabled': !_workgroupService.loggedUser.userId}">
               <a [routerLink]="['/users']"><i class="fa fa-user-circle"></i> ניהול משתמשים</a></li>
-            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+            <li [ngClass]="{'disabled': !_workgroupService.loggedUser.userId}">
               <a [routerLink]="['/structuredParameters']"><i class="fa fa-gear"></i> משתנים של תהליכים</a></li>
-            <li [ngClass]="{'disabled': !_workgroupService.userId}">
+            <li [ngClass]="{'disabled': !_workgroupService.loggedUser.userId}">
               <a [routerLink]="['/processDnis']"><i class="fa fa-phone"></i> מספרי גישה</a></li>
-            <li [ngClass]="{'disabled': !_workgroupService.userId}"><a>
-              <i class="fa fa-sitemap"></i> היררכיית קבוצות</a></li>
+            <li [ngClass]="{'disabled': !_workgroupService.loggedUser.userId}">
+              <a>
+                <i class="fa fa-sitemap"></i> היררכיית קבוצות</a>
+            </li>
           </ul>
         </li>
       </ul>
-      <ul *ngIf="!_workgroupService.userId" class="nav navbar-nav navbar-left">
+      <ul *ngIf="!_workgroupService.loggedUser.userId" class="nav navbar-nav navbar-left">
         <li class="pointer" data-toggle="modal" data-target="#loginModal">
           <a>
             <i class="glyphicon glyphicon-user"></i>
-            <span>{{_workgroupService.userId}}</span>
+            <span style="margin-right: 3px">התחבר למערכת</span>
           </a>
         </li>
       </ul>
-      <ul *ngIf="_workgroupService.userId" class="nav navbar-nav navbar-left">
+      <ul *ngIf="_workgroupService.loggedUser.userId" class="nav navbar-nav navbar-left">
         <li class="pointer" data-toggle="modal" data-target="#logoutModal">
           <a>
             <i class="glyphicon glyphicon-user"></i>
-            <span>{{_workgroupService.userId}}</span>
+            <span style="margin-right: 3px">{{_workgroupService.loggedUser.displayName}}</span>
           </a>
         </li>
       </ul>
@@ -68,9 +70,8 @@
       <div class="modal-body">
         <div class="page-header">
           <i class="glyphicon glyphicon-log-out"></i> יציאה מהמערכת</div>
-      האם ברצונך להתנתק מן המערכת?
+        האם ברצונך להתנתק מן המערכת?
       </div>
-      
       <div class="modal-footer">
         <button class="btn btn-sm" data-dismiss="modal"><i class="fa fa-undo"></i>ביטול</button>
         <button class="btn btn-sm btn-primary" (click)="logOut()"><i class="glyphicon glyphicon-log-out"></i> יציאה מהמערכת</button>
@@ -79,9 +80,8 @@
   </div>
 </div>
 
-
-<!--===========================================
-        חלונית התחברות-->
+<!-- ===== מודל עבור התחברות למערכת ===== -->
+<!--=======================================-->
 <div id="loginModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -91,33 +91,44 @@
           <h5>
             <i class="fa fa-user-circle-o" style="font-size: 23px"></i> התחברות למערכת</h5>
         </div>
-        <div class="row">
-          <div class="col-sm-8">
-            <div class="row form-group">
-              <label for="" class="col-sm-3 control-label">שם משתמש:</label>
-              <div class="col-sm-6">
-                <input #userId type="text" class="form-control input-sm" dir="ltr">
+        <form #form="ngForm" id="frmLogin" novalidate>
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="row form-group" [class.has-error]="userId.invalid&&userId.dirty&&userId.touched">
+                <label for="" class="col-sm-3 control-label">שם משתמש:</label>
+                <div class="col-sm-6">
+                  <input #userId="ngModel" name="userName" type="text" class="form-control input-sm" required 
+                          [(ngModel)]="localUser.userId" dir="ltr">
+                </div>
               </div>
-            </div>
-            <div class="row form-group">
-              <label for="" class="col-sm-3 control-label">סיסמא:</label>
-              <div class="col-sm-7">
-                <div class="input-group">
-                  <input [type]="passwordType" class="input-sm form-control" dir="ltr">
-                  <div class="input-group-btn input-sm">
-                    <i class="glyphicon glyphicon-eye-open" (mousedown)="setToTextType()" (mouseup)="setToPasswordType()" (mouseleave)="setToPasswordType()"
-                      style="font-size: 16px; cursor: pointer;color: #2040c0"></i> </div>
+              <div class="row form-group">
+                <label for="" class="col-sm-3 control-label">סיסמא:</label>
+                <div class="col-sm-7">
+                  <div class="input-group">
+                    <input [type]="passwordType" #password="ngModel" name="password" required
+                      class="input-sm form-control" dir="ltr" [(ngModel)]="localUser.userPassword">
+                    <div class="input-group-btn input-sm">
+                      <i class="glyphicon glyphicon-eye-open" (mousedown)="setToTextType()" (mouseup)="setToPasswordType()" (mouseleave)="setToPasswordType()"
+                        style="font-size: 16px; cursor: pointer;color: #2040c0"></i> </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="col-sm-4 loader">
+              <preloader *ngIf="userLoginAnimation" [loaderMessage]="'מאמת משתמש'"></preloader>
+            </div>
           </div>
-          <div class="col-sm-4 loader">
-            <preloader [loaderMessage]="'מאמת משתמש'"></preloader></div>         
-        </div>
+          <div class="row" *ngIf="_workgroupService.loggedUser.statusMessage">
+            <div class="col-sm-12">
+              <div class="alert alert-info">
+                {{_workgroupService.loggedUser.statusMessage}}</div>
+              </div>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button class="btn btn-sm" data-dismiss="modal"><i class="fa fa-undo"></i> יציאה </button>
-        <button class="btn btn-primary btn-sm" (click)="registerUser(userId.value)">
+        <button class="btn btn-primary btn-sm" [class.disabled]="form.invalid" (click)="loggingUser()">
           <i class="glyphicon glyphicon-log-in"></i>
           התחברות</button>
       </div>

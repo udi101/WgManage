@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { userLogin } from './../models/userLogin.model'
 import { WorkgroupService } from './../core/workgroup.service';
 declare var $: any;
 
@@ -10,23 +11,48 @@ declare var $: any;
 
 export class NavbarComponent {
     passwordType: string = "password";
-    localUserId:string = null;
-    
+    localUser: userLogin = new userLogin();   // הגדרת משתמש מקומי
+    localUserId: string = null;
+    userLoginAnimation: boolean = false;
+
     constructor(private _workgroupService: WorkgroupService) { }
 
-    
+
 
     // InIn-רישום של יוזר  מול מערכת ה
-    registerUser(_userId: string): void {
-        this.localUserId = _userId;
-        // console.log("the user Id is: " + _userId);
-        setTimeout(function () { $("#loginModal").modal('hide') },3000);    //  לאחר 3 שניות jQuery סגירה של המודל בעזרת 
-        this._workgroupService.userId = this.localUserId;
+    // ===========================================
+    loggingUser(): void {
+        // this.localUserId = _userId;
+        if(this.localUser.userId && this.localUser.userPassword){
+        this.userLoginAnimation = true;                // הצגת אנימציה
+        this._workgroupService.loggingUser(this.localUser.userId, this.localUser.userPassword).subscribe(
+            data => {
+                console.log(JSON.stringify(data));
+                this._workgroupService.loggedUser = data;
+                this.userLoginAnimation = false;
+                if (this._workgroupService.loggedUser.userId != null)
+                {
+                    $("#loginModal").modal('hide');   //  סגירה של המודל במידה וחיבור בוצע
+                    this.localUser.resetUser();             // null-איפוס הערכים של המשתמש המקומי ל
+                }
+                
+            },
+            error => {
+                console.log(error);
+                this.userLoginAnimation = false;
+                this._workgroupService.loggedUser.statusMessage = error;
+                // $("#loginModal").modal('hide');   // סגירה של המודל
+            });
+        }
     }
 
-    logOut():void{
-        this.localUserId = null;
-        this._workgroupService.userId = null;
+    logOut(): void {
+        // this.localUserId = "null";
+        this.userLoginAnimation = true;
+        this._workgroupService.loggedUser = new userLogin();
+         console.log(this._workgroupService.loggedUser);
+         this.userLoginAnimation = false;
+        $("#logoutModal").modal('hide');
         // InIn Logout
     }
 
