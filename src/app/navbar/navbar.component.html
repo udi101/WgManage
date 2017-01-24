@@ -98,7 +98,7 @@
                 <label for="" class="col-sm-3 control-label">שם משתמש:</label>
                 <div class="col-sm-6">
                   <input #userId="ngModel" name="userName" type="text" class="form-control input-sm" required 
-                          [(ngModel)]="localUser.userId" dir="ltr">
+                    placeholder="Insert ININ user name" [(ngModel)]="localUser.userId" dir="ltr">
                 </div>
               </div>
               <div class="row form-group">
@@ -106,7 +106,8 @@
                 <div class="col-sm-7">
                   <div class="input-group">
                     <input [type]="passwordType" #password="ngModel" name="password" required
-                      class="input-sm form-control" dir="ltr" [(ngModel)]="localUser.userPassword">
+                      class="input-sm form-control" dir="ltr" [(ngModel)]="localUser.userPassword"
+                      placeholder="Insert your ININ password" >
                     <div class="input-group-btn input-sm">
                       <i class="glyphicon glyphicon-eye-open" (mousedown)="setToTextType()" (mouseup)="setToPasswordType()" (mouseleave)="setToPasswordType()"
                         style="font-size: 16px; cursor: pointer;color: #2040c0"></i> </div>
