@@ -1,88 +1,71 @@
 <div class="page-header">
   <div class="row">
-    <div class="col-sm-5"><breadcrumbs [navGroup]="'ניהול קבוצות'" [operation]="'יצירת קבוצה חדשה'"></breadcrumbs></div>
-    <div class="col-sm-7"><h4>הקמת קבוצה חדשה</h4></div>
+    <div class="col-sm-5">
+      <breadcrumbs [navGroup]="'ניהול קבוצות'" [operation]="'הקמת קבוצה חדשה'"></breadcrumbs>
+    </div>
+    <div class="col-sm-7">
+      <h4>הקמת קבוצה חדשה</h4>
+    </div>
   </div>
 </div>
-
-
 <div class="row">
-  <div class="col-sm-2">
+  <div class="col-sm-6">
     <form #form="ngForm" novalidate>
-      <div class="form-group" [ngClass]="{'has-error': firstName.dirty&&firstName.touched&&firstName.invalid}">
-        <label class="control-label">שם הקבוצה</label>
-        <div class="input-group">
-          <input type="text" #firstName="ngModel" class="form-control input-sm"
-            required minlength="3" name="firstName"
-          [(ngModel)]="user.firstName">
+      <div class="panel panel-primary">
+        <!--  יצירת פאנל  -->
+        <div class="panel-heading">
+          <i class="glyphicon glyphicon-user"></i>
+          יצירת קבוצה חדשה
+          
+        </div>
+        <div class="panel-body">
+          <div class="form-group row"
+          [class.has-error]="workgroupName.invalid&&workgroupName.dirty&&workgroupName.touched">
+            <div class="col-sm-12">
+              <label for="שם הקבוצה" class="control-label">שם הקבוצה:</label></div>
+            <div class="col-sm-7">
+              <input name="workgroupName" type="text" class="form-control input-sm"
+              #workgroupName="ngModel" required [(ngModel)]="newWorkgroup.wgName" placeholder="שם הקבוצה"></div>
+          </div>
+          <div class="form-group row" [class.has-error]="extension.invalid&&extension.dirty">
+            <div class="col-sm-12">
+            <label class="control-label">מספר השלוחה</label></div>
+            <div class="col-sm-7">
+            <input type="text" name="extension" class="form-control input-sm" maxlength="9" pattern="^\d{0,9}"
+              #extension="ngModel" [(ngModel)]="newWorkgroup.wgExtension" placeholder="הזן מספר שלוחה (ספרות בלבד)"></div>  
+          </div>
 
-            <!--[ngModel]="user.firstName"
-             (ngModelChange)="changeToUpper($event)"-->
-          <div class="input-group-btn">
-            <button class="btn btn-primary btn-sm" tabindex="-1">Ok</button>
+          <div class="form-group row" [ngClass]="{'has-error':isWgTypeInvalid}">
+            <div class="col-sm-5">
+              <label class="control-label">סוג הקבוצה</label>
+              <select name="groupType" class="form-control input-sm" #groupType
+              [(ngModel)]="newWorkgroup.wgType"
+              (blur)="setValidationForWgType(groupType.value)"
+              (change)="setValidationForWgType(groupType.value)">
+          <option default value="default">בחר את סוג הקבוצה</option>
+          <option value="Management">ק - קבוצה למימוש ניהול</option>
+          <option value="Queue">ת - קבוצה למימוש תור</option>
+        </select>
+            </div>
+            <div class="col-sm-3">
+              <!-- === אנימציה של יצירה הקבוצה === -->
+              <preloader *ngIf="isCreatingWg"       
+              style="position: absolute;top:0px;left:-70px"
+              [loaderMessage]="'יוצר קבוצה'"></preloader></div>
           </div>
         </div>
-        <div class="alert alert-danger" *ngIf="firstName.invalid&&firstName.dirty&&firstName.touched">
-          <div style="position:absolute;top:20%">
-            יש להזין טקסט 
-          </div></div>
+        <div class="panel-footer text-left">
+          <div class="row">
+            <div class="col-sm-12">
+              <button class="btn btn-sm btn-default" type="reset">אתחול הטופס</button>            
+              <button type="submit" class="btn btn-sm btn-primary"
+              [disabled]="form.invalid||groupType.value=='default'"
+              (click)="createNewWorkgroup()">צור קבוצה</button>
+            </div>
+          </div>
+        </div>  
       </div>
-      <!--============================-->
-      <div class="form-group">
-        <label>שם משפחה</label>
-        <div class="input-group">
-          <input type="text" class="form-control input-sm" name="lastName" required
-          [(ngModel)]="user.lastName">
-          <span class="input-group-addon input-sm"><i class="fa fa-bed"></i></span>
-        </div>
-      </div>
-      <!--============================-->
-      <div class="form-group">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" name="Operation" [(ngModel)]="user.isOperated" required>הפעלה מיידית
-        </label>
-      </div></div>
-
-
-      <!--=============================-->
-      <div class="form-group">
-      <label for="" class="control-label">שם המוקד</label>
-      <div class="radio">
-        <label for="">
-          <input type="radio" name="moked" value="dikla" [(ngModel)]="user.moked">מוקד דקלה
-        </label>
-      </div>
-      <div class="radio">
-        <label for="">
-          <input type="radio" name="moked" value="sherut" [(ngModel)]="user.moked">מוקד שרות
-        </label>
-      </div></div>
-
-      <div class="form-group">
-        <label for="">תפקיד</label>
-        <select name="role" class="form-control input-sm"[(ngModel)]="user.role">
-          <option value="admin">מנהל משמרת</option>
-          <option value="supervisor">ראש צוות</option>
-          <option value="caller">נציג שרות</option>
-        </select>
-      </div>
-
-      <!--============================-->
-
-      <div class="row">
-      <div class="col-sm-6">
-      <button class="btn btn-sm btn-primary" type="submit" click="check()">
-        <i class="fa fa-registered" style="font-size:15px"></i> רשום משתמש</button>
-      </div></div>
-      
     </form>
   </div>
-  <div class="col-sm-5 col-sm-offset-2">
-    {{firstName.dirty}}<br />
-    <!--{{firstName.className}} <br />-->
-    {{user | json}}<br />
-    {{form.value | json}}
-
-  </div>
 </div>
+{{this._workgroupService.loggedUser | json}}

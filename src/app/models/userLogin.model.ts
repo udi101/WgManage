@@ -13,6 +13,7 @@ export class userLogin {
         this.role = null;
         this.statusMessage = null;
     }
+
     // ניקוי הערכים של המשתמש
     public resetUser() {
         this.userId = null;

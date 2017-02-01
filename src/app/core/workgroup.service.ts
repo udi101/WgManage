@@ -6,6 +6,7 @@ import { IStrParameter } from './../interfaces/strParameter.interface';
 import { IUser } from './../interfaces/user.internface';
 import { userLogin } from './../models/userLogin.model';
 import { IWorkgroup } from './../interfaces/workgroup.interface';
+import { NewWg } from './../models/newWg.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/Operator/map';
 import 'rxjs/add/Operator/do';
@@ -16,12 +17,12 @@ export class WorkgroupService {
   currentWorkgroup: string = '';
   currentAcg: string = '';
 
-// === משתמש עבור ההתחברות למערכת
+  // === משתמש עבור ההתחברות למערכת
 
-  loggedUser:userLogin = new userLogin();
+  loggedUser: userLogin = new userLogin();
 
   // === Mocking URL ===
-  private icelibUrl:string = 'http://localhost/WebApi/api/';
+  private icelibUrl: string = 'http://localhost/WebApi/api/';
 
   // === IceLib URL ===
   // private icelibUrl:string = 'http://hhw-rgininap31/WebApi/api/';
@@ -36,44 +37,68 @@ export class WorkgroupService {
   }
 
   // התחברות למערכת
-  loggingUser(_user:string,_password:string):Observable<userLogin>{
-    let url = this.icelibUrl + "users/Login/" + _user; 
+  loggingUser(_user: string, _password: string): Observable<userLogin> {
+    let url = this.icelibUrl + "users/Login/" + _user;
     let body = JSON.stringify(_password);
-    let headers:Headers = new Headers();
-    headers.append('Content-Type','application/json');
-    return this._http.post(url,body,{headers:headers})
-    .map((response:Response) => <userLogin>response.json())
-    .catch(this.handleError);
+    let headers: Headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this._http.post(url, body, { headers: headers })
+      .map((response: Response) => <userLogin>response.json())
+      .catch(this.handleError);
+  }
+
+  // פונקציה ליצירת קבוצה חדשה
+  createNewWorkgroup(workgroup: NewWg): Observable<boolean> {
+    let url = this.icelibUrl + "workgroups/";
+    let body = JSON.stringify(workgroup);
+    let headers: Headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'Application/json');
+    headers.append('User', this.loggedUser.userId);
+    headers.append('Password', this.loggedUser.userPassword);
+    return this._http.post(url, body, { headers: headers })
+      .map((response: Response) => <boolean>response.json())
+      .catch(this.handleError);
   }
 
 
   // שליפה של כל התהליכים במערכת
   loadProcesses(): Observable<IProcess[]> {
-    return this._http.get(this.icelibUrl + 'processes/')
+    let headers: Headers = new Headers();
+    headers.append('User', this.loggedUser.userId);
+    headers.append('Password', this.loggedUser.userPassword);
+    return this._http.get(this.icelibUrl + 'processes/', { headers: headers })
       .map((response: Response) => <IProcess[]>response.json())
       .catch(this.handleError);
   }
 
   // שליפה של כל הפרמטרים של תהליך מסויים 
   loadStrParameters(_processName: string): Observable<IStrParameter[]> {
-    return this._http.get(this.icelibUrl + 'processes/' + _processName)
+    let headers: Headers = new Headers();
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);
+    return this._http.get(this.icelibUrl + 'processes/' + _processName, { headers: headers })
       .map((response: Response) => <IStrParameter[]>response.json())
       .catch(this.handleError);
   }
 
   // שליפה של משתמשים שאינם חברים בקבוצה מסויימת
   loadCandidates(_workgroup: string): Observable<IUser[]> {
-    return this._http.get(this.icelibUrl + 'users/GetCandidatesForWg/' + _workgroup)
+    let headers:Headers = new Headers();
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);
+    return this._http.get(this.icelibUrl + 'users/GetCandidatesForWg/' + _workgroup, {headers:headers})
       .map((response: Response) => <IUser[]>response.json())
       .catch(this.handleError);
   }
 
   // === הוספת משתמש לקבוצה
   addUserToWorkgroup(_workgroup: string, _user: IUser): Observable<any> {
-    let url = this.icelibUrl + 'workgroups/'  + _workgroup;
-    // let url = this.workgroupUrl + _workgroup;
+    let url = this.icelibUrl + 'workgroups/' + _workgroup;
     let headers: Headers = new Headers();
     headers.append("Content-Type", "application/json");
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);
     let body: string = JSON.stringify(_user);
     return this._http.put(url, body, { headers: headers })
       .map((respnse: Response) => <boolean>respnse.json())
@@ -82,7 +107,8 @@ export class WorkgroupService {
 
   // === שליפה של רשימת הקבוצות  בהן משתמש מסויים אינו חבר
   getCandidatesWgForUser(_user: string): Observable<IWorkgroup[]> {
-    return this._http.get(this.icelibUrl + 'workgroups/' + 'GetCandidatesWgForUser/' + _user)
+    let headers:Headers = new Headers();
+    return this._http.get(this.icelibUrl + 'workgroups/' + 'GetCandidatesWgForUser/' + _user,{headers:headers})
       .map((response: Response) => <IWorkgroup[]>response.json())
       .catch(this.handleError);
   }
@@ -90,42 +116,56 @@ export class WorkgroupService {
 
   // acg-שליפה של רשימת ה
   getAcg(): Observable<string[]> {
-    return this._http.get(this.icelibUrl + 'acg/')
+    let headers:Headers = new Headers();
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);
+    return this._http.get(this.icelibUrl + 'acg/',{headers:headers})
       .map((response: Response) => response.json())
       .do(data => console.log("The data is : " + JSON.stringify(data)));
   }
 
   // Get structure Parameters of a Workgroup
   getStructureParametersByWorkgroup(_workgroup: string): Observable<IProcess[]> {
-    return this._http.get(this.icelibUrl + 'workgroups/' + 'Getstructureparameters/' + _workgroup)
+    let headers:Headers = new Headers;
+    return this._http.get(this.icelibUrl + 'workgroups/' + 'Getstructureparameters/' + _workgroup,{headers:headers})
       .map((res: Response) => <IProcess[]>res.json())
       .catch(this.handleError);
   }
 
   // Get all users of a Workgroup
   getWorkgroupsUsers(_workgroup: string): Observable<IUser[]> {
-    return this._http.get(this.icelibUrl + 'users/GetUsersByWorkgroup/' + _workgroup)
+    let headers:Headers = new Headers();
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);
+    return this._http.get(this.icelibUrl + 'users/GetUsersByWorkgroup/' + _workgroup,{headers:headers})
       .map((res: Response) => <IUser[]>res.json())
       .catch(this.handleError);
   }
 
   // קבלת רשימה של כל היוזרים של המערכת
   getUsers(): Observable<IUser[]> {
-    return this._http.get(this.icelibUrl + 'users/')
+    let headers:Headers = new Headers();
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);
+    return this._http.get(this.icelibUrl + 'users/',{headers:headers})
       .map((res: Response) => <Array<IUser>>res.json())
       .catch(this.handleError);
   }
 
   // שליפת רשימה של כל הקבוצות שבהן חבר יוזר מסוים
   getWorkgroupsOfUser(_user: string): Observable<IWorkgroup[]> {
-    return this._http.get(this.icelibUrl + 'workgroups/' + 'GetWorkgroupsOfUser/' + _user)
+    let headers:Headers = new Headers();
+    return this._http.get(this.icelibUrl + 'workgroups/' + 'GetWorkgroupsOfUser/' + _user,{headers:headers})
       .map((response: Response) => <IWorkgroup[]>response.json())
       .catch(this.handleError);
   }
 
   // Get workgroups by their Acg
   getWorkgroups(_acg: string): Observable<string[]> {
-    return this._http.get(this.icelibUrl + 'workgroups/' + 'GetWorkgroupsByAcg/' + _acg)
+    let headers:Headers = new Headers();
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);
+    return this._http.get(this.icelibUrl + 'workgroups/' + 'GetWorkgroupsByAcg/' + _acg,{headers:headers})
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
@@ -136,6 +176,8 @@ export class WorkgroupService {
     let body: string = JSON.stringify(_user);
     let headers: Headers = new Headers();
     headers.append('Content-Type', 'application/json');
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);    
     return this._http.post(_url, body, { headers: headers })
       .map((response: Response) => <IUser[]>response.json())
       .catch(this.handleError);
@@ -147,6 +189,8 @@ export class WorkgroupService {
     let body: string = JSON.stringify(_workgroup);
     let headers: Headers = new Headers();
     headers.append("Content-Type", "application/json");
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);
     return this._http.post(url, body, { headers: headers })
       .map((response: Response) => <IWorkgroup[]>response.json())
       .catch(this.handleError);
@@ -158,6 +202,8 @@ export class WorkgroupService {
     let body: string = JSON.stringify(_user);
     let headers: Headers = new Headers();
     headers.append('Content-type', 'application/json');
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);
     return this._http.put(this.icelibUrl + 'users/' + _workgroup, body, { headers: headers })
       .do(data => console.log("user status data: " + JSON.stringify(data)),
       error => console.log("user status error: " + error));
@@ -165,7 +211,10 @@ export class WorkgroupService {
 
   //  קבלת רשימת תכונות של קבוצה
   getCustomAttr(_workgroup: string): Observable<ICustomAttribute[]> {
-    return this._http.get(this.icelibUrl + 'customAttribute/' + _workgroup)
+    let headers:Headers = new Headers();
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);
+    return this._http.get(this.icelibUrl + 'customAttributes/' + _workgroup,{headers:headers})
       .map((_response: Response) => _response.json())
       .catch(this.handleError);
   }
@@ -175,7 +224,9 @@ export class WorkgroupService {
     let body = JSON.stringify(_customAttribute);
     let headers: Headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this._http.put(this.icelibUrl + 'customAttribute/' + _workgroupName,
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);
+    return this._http.put(this.icelibUrl + 'customAttributes/' + _workgroupName,
       body, { headers: headers }); // .map((res:Response)=> res.json());
   }
 
@@ -185,6 +236,8 @@ export class WorkgroupService {
     let url = this.icelibUrl + 'processes/' + process.processId;
     let headers: Headers = new Headers();
     headers.append('Content-Type', 'application/json');
+    headers.append('User',this.loggedUser.userId);
+    headers.append('Password',this.loggedUser.userPassword);
     return this._http.put(url, body, { headers: headers });
   }
 

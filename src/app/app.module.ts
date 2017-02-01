@@ -46,6 +46,7 @@ import { FilterAttributesPipe } from './pipes/CAttributes/filterAttributes.pipe'
 import { SortattributesPipe } from './pipes/CAttributes/sortattributes.pipe';
 import { SortworkgroupsPipe } from './pipes/workgroups/sortworkgroups.pipe';
 import { FilterworkgroupsPipe } from './pipes/workgroups/filterworkgroups.pipe';
+import { WgHierarchyComponent } from './settings/wghierarchy/wghierarchy.component';
 
 
 
@@ -77,6 +78,7 @@ import { FilterworkgroupsPipe } from './pipes/workgroups/filterworkgroups.pipe';
     SortStrParametersPipe,
     FilterStrParametersPipe,
     CreateNewWgComponent,
+    WgHierarchyComponent,
     
     // pipes
     SortUsersPipe,
@@ -92,9 +94,10 @@ import { FilterworkgroupsPipe } from './pipes/workgroups/filterworkgroups.pipe';
     HttpModule,
     RouterModule.forRoot([
       { path: "Home", component: HomeComponent },
-      { path: "Create_Workgroup", component: CreateNewWgComponent, canActivate: [LoginGuard] },
+      { path: "Create_Workgroup", component: CreateNewWgComponent },
       { path: "CustomAttributes", component: CAttrContainer, canActivate: [LoginGuard]},
       { path: "CustomAttributes/:acg/:currentWorkgroup", component: CAttrContainer, canActivate: [LoginGuard] },
+      { path: "WgHierarchy",component:WgHierarchyComponent},
       { path: "UsersWg", component: UsersWgContainerComponent, canActivate: [LoginGuard]},
       { path: "UsersWg/:acg/:currentWorkgroup", component: UsersWgContainerComponent, canActivate: [LoginGuard] },
       { path: "ProccessesWg", component: spWgContainerComponent, canActivate: [LoginGuard] },

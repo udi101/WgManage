@@ -38,7 +38,7 @@
             <li [ngClass]="{'disabled': !_workgroupService.loggedUser.userId}">
               <a [routerLink]="['/processDnis']"><i class="fa fa-phone"></i> מספרי גישה</a></li>
             <li [ngClass]="{'disabled': !_workgroupService.loggedUser.userId}">
-              <a>
+              <a [routerLink]="['WgHierarchy']">
                 <i class="fa fa-sitemap"></i> היררכיית קבוצות</a>
             </li>
           </ul>
